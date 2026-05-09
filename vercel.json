@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/typing", "destination": "/typing.html" },
+    { "source": "/logic", "destination": "/logic.html" },
+    { "source": "/stats", "destination": "/stats.html" },
+    { "source": "/archive", "destination": "/archive.html" }
+  ]
+}
