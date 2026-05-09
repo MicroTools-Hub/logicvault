@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>Daily Logic Puzzle — LogicVault</title>
+  <meta name="description" content="Solve today's free logic puzzle. New lateral thinking, math, and riddle challenges every day. Can you solve it without hints?">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Daily Logic Puzzle — LogicVault">
+  <meta property="og:description" content="Can you solve today's logic puzzle?">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:type" content="website">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span>Logic</span><span style="font-weight: 700;">⚡Vault</span>
+      </a>
+      <div class="nav__links">
+        <a href="index.html">← Back</a>
+        <a href="stats.html">📊 Stats</a>
+        <div id="nav-streak"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Logic Container -->
+  <div class="logic-container">
+    <!-- Header -->
+    <div class="typing-header">
+      <h1>🧩 Logic Puzzle</h1>
+      <div class="flex gap-2 items-center flex-wrap">
+        <span id="today-date" class="text-muted"></span>
+        <span id="puzzle-number" class="badge badge--logic">#1</span>
+        <span id="category-badge" class="badge badge--typing"></span>
+        <span id="difficulty-badge" class="badge badge--xp"></span>
+      </div>
+    </div>
+
+    <!-- Puzzle Card -->
+    <div class="puzzle-card" id="puzzle-card">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Hints Container -->
+    <div class="hints-container" id="hints-container">
+      <div class="hint-buttons" id="hint-buttons">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Answer Container -->
+    <div class="answer-container" id="answer-container">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Reveal Section -->
+    <div class="reveal-section hidden" id="reveal-section">
+      <!-- Populated on submit -->
+    </div>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal hidden" id="completion-modal">
+      <!-- Populated on completion -->
+    </div>
+
+    <!-- Ad Slot -->
+    <div id="ad-slot"></div>
+
+    <!-- Past Puzzles Grid -->
+    <div class="mt-4">
+      <h3 class="text-center mb-2">Your Last 7 Puzzles</h3>
+      <div class="calendar-heatmap" id="past-puzzles-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container text-center">
+      <p class="text-muted" style="font-size: 0.85rem;">
+        Built by voidbuilds · logicvault.tech
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/logic.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check and update streaks
+      checkAndUpdateStreaks();
+      
+      const stats = getStats();
+      
+      // Update nav streak
+      if (stats.logic.currentStreak > 0) {
+        document.getElementById('nav-streak').innerHTML = renderStreakBadge(stats.logic.currentStreak);
+      }
+      
+      // Get puzzle from URL param or use today's
+      const urlParams = new URLSearchParams(window.location.search);
+      const puzzleId = urlParams.get('puzzle');
+      const puzzle = puzzleId ? getPuzzleById(puzzleId) : getTodayPuzzle();
+      
+      // If puzzle not found, use today's
+      if (!puzzle) {
+        window.location.href = 'logic.html';
+        return;
+      }
+      
+      // Update header
+      const todayIndex = getTodayIndex(PUZZLES);
+      document.getElementById('today-date').textContent = getTodayDate();
+      document.getElementById('puzzle-number').textContent = `#${todayIndex + 1}`;
+      document.getElementById('category-badge').textContent = `${getCategoryIcon(puzzle.category)} ${puzzle.category}`;
+      document.getElementById('difficulty-badge').textContent = puzzle.difficulty.toUpperCase();
+      document.getElementById('difficulty-badge').className = `badge badge--xp difficulty--${puzzle.difficulty}`;
+      
+      // Initialize game
+      logicGame = new LogicPuzzle();
+      logicGame.init(puzzle);
+      
+      // Render ad slot
+      const adContainer = document.getElementById('ad-slot');
+      if (adContainer) {
+        adContainer.appendChild(renderAdSlot('banner'));
+      }
+      
+      // Render past puzzles grid
+      renderPastPuzzlesGrid(stats.logic.history.slice(0, 7));
+    });
+    
+    /**
+     * Render past puzzles calendar grid
+     */
+    function renderPastPuzzlesGrid(history) {
+      const container = document.getElementById('past-puzzles-grid');
+      if (!container || history.length === 0) {
+        container.innerHTML = '<p class="text-muted text-center" style="grid-column: 1/-1;">No puzzles attempted yet. Start solving!</p>';
+        return;
+      }
+      
+      const cells = history.map(entry => {
+        let className = 'calendar-cell';
+        let title = '';
+        
+        if (entry.solved) {
+          className += ' calendar-cell--solved';
+          title = `Solved with ${entry.hintsUsed} hints`;
+        } else {
+          className += ' calendar-cell--failed';
+          title = 'Attempted but not solved';
+        }
+        
+        return `<div class="${className}" title="${title}"></div>`;
+      }).reverse().join('');
+      
+      container.innerHTML = cells;
+    }
+  </script>
+</body>
+</html>

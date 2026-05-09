@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>Archive — LogicVault</title>
+  <meta name="description" content="Browse past typing quotes and logic puzzles. Practice with any previous challenge.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Archive — LogicVault">
+  <meta property="og:description" content="Browse past challenges.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:type" content="website">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span>Logic</span><span style="font-weight: 700;">⚡Vault</span>
+      </a>
+      <div class="nav__links">
+        <a href="index.html">← Back</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Archive Container -->
+  <div class="archive-container">
+    <h1 class="text-center mb-3">📚 Challenge Archive</h1>
+    
+    <!-- Ad Slot -->
+    <div id="ad-slot-top"></div>
+    
+    <!-- Search Bar -->
+    <input type="text" class="search-bar" id="search-input" placeholder="Search by keyword, author, or category...">
+    
+    <!-- Tabs -->
+    <div class="archive-tabs">
+      <button class="archive-tab archive-tab--active" data-tab="quotes">Past Quotes</button>
+      <button class="archive-tab" data-tab="puzzles">Past Puzzles</button>
+    </div>
+    
+    <!-- Content -->
+    <div id="archive-content">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container text-center">
+      <p class="text-muted" style="font-size: 0.85rem;">
+        Built by voidbuilds · logicvault.tech
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stats.js"></script>
+  
+  <script>
+    let currentTab = 'quotes';
+    let allQuotes = [...QUOTES];
+    let allPuzzles = [...PUZZLES];
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      // Render ad slot
+      const adContainer = document.getElementById('ad-slot-top');
+      if (adContainer) {
+        adContainer.appendChild(renderAdSlot('banner'));
+      }
+      
+      // Setup tab switching
+      document.querySelectorAll('.archive-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          currentTab = tab.dataset.tab;
+          document.querySelectorAll('.archive-tab').forEach(t => t.classList.remove('archive-tab--active'));
+          tab.classList.add('archive-tab--active');
+          renderContent();
+        });
+      });
+      
+      // Setup search
+      document.getElementById('search-input').addEventListener('input', debounce((e) => {
+        const query = e.target.value.toLowerCase();
+        
+        if (currentTab === 'quotes') {
+          allQuotes = QUOTES.filter(q => 
+            q.text.toLowerCase().includes(query) ||
+            q.author.toLowerCase().includes(query) ||
+            q.category.toLowerCase().includes(query)
+          );
+        } else {
+          allPuzzles = PUZZLES.filter(p => 
+            p.question.toLowerCase().includes(query) ||
+            p.answer.toLowerCase().includes(query) ||
+            p.category.toLowerCase().includes(query)
+          );
+        }
+        
+        renderContent();
+      }, 300));
+      
+      // Initial render
+      renderContent();
+    });
+    
+    /**
+     * Render content based on current tab
+     */
+    function renderContent() {
+      const container = document.getElementById('archive-content');
+      const stats = getStats();
+      
+      if (currentTab === 'quotes') {
+        const items = allQuotes.slice(0, 50).map(quote => {
+          const played = stats.typing.history.find(h => h.quoteId === quote.id);
+          
+          return `
+            <div class="archive-item">
+              <div class="archive-item__content">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="badge badge--typing">⌨️ ${quote.category}</span>
+                  <span class="difficulty--${quote.difficulty}" style="font-size: 0.8rem; padding: 2px 8px; border-radius: 10px; background: rgba(136,136,170,0.2);">${quote.difficulty.toUpperCase()}</span>
+                </div>
+                <p style="font-style: italic; color: var(--muted); margin-bottom: 4px;">"${quote.text.substring(0, 80)}${quote.text.length > 80 ? '...' : ''}"</p>
+                <div class="archive-item__meta">
+                  <span>${quote.author}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                ${played ? `<span class="badge badge--typing">✓ ${played.wpm} WPM</span>` : ''}
+                <a href="typing.html?quote=${quote.id}" class="btn btn--sm btn--primary">Play</a>
+              </div>
+            </div>
+          `;
+        }).join('');
+        
+        container.innerHTML = `<div class="archive-list">${items}</div>`;
+      } else {
+        const items = allPuzzles.slice(0, 50).map(puzzle => {
+          const played = stats.logic.history.find(h => h.puzzleId === puzzle.id);
+          
+          return `
+            <div class="archive-item">
+              <div class="archive-item__content">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="badge badge--logic">${getCategoryIcon(puzzle.category)} ${puzzle.category}</span>
+                  <span class="difficulty--${puzzle.difficulty}" style="font-size: 0.8rem; padding: 2px 8px; border-radius: 10px; background: rgba(136,136,170,0.2);">${puzzle.difficulty.toUpperCase()}</span>
+                </div>
+                <p style="color: var(--text); margin-bottom: 4px;">${puzzle.question.substring(0, 100)}${puzzle.question.length > 100 ? '...' : ''}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                ${played && played.solved ? '<span class="badge badge--correct">✓ Solved</span>' : ''}
+                ${played && !played.solved ? '<span class="badge badge--wrong">✗ Failed</span>' : ''}
+                <a href="logic.html?puzzle=${puzzle.id}" class="btn btn--sm btn--primary">Try</a>
+              </div>
+            </div>
+          `;
+        }).join('');
+        
+        container.innerHTML = `<div class="archive-list">${items}</div>`;
+      }
+    }
+  </script>
+</body>
+</html>
