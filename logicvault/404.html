@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>Page Not Found — LogicVault</title>
+  <meta name="description" content="This page doesn't exist, but here's a puzzle to keep you entertained!">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="404 — LogicVault">
+  <meta property="og:description" content="This page is the real puzzle.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        ⚡ Logic<span>Vault</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="typing.html" class="nav-link">Typing</a>
+        <a href="logic.html" class="nav-link">Logic</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Error Container -->
+  <main class="error-container">
+    <div class="error-code">404</div>
+    
+    <h1 class="error-title">🧩 This page is the real puzzle.</h1>
+    
+    <p class="error-desc">
+      The page you're looking for doesn't exist. But while you're here, try solving this riddle:
+    </p>
+    
+    <!-- Random Easy Riddle -->
+    <div class="riddle-box">
+      <p class="riddle-question" id="riddle-question">Loading riddle...</p>
+      <button class="btn btn-ghost btn-small mt-2" onclick="toggleRiddleAnswer()">
+        👁️ Show Answer
+      </button>
+      <p class="riddle-answer hidden" id="riddle-answer"></p>
+    </div>
+    
+    <div class="text-center">
+      <a href="index.html" class="btn btn-primary">🏠 Back Home</a>
+      <a href="typing.html" class="btn btn-secondary">⌨️ Typing Challenge</a>
+      <a href="logic.html" class="btn btn-logic">🧩 Logic Puzzle</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>⚡ LogicVault</h3>
+        <p>Sharpen your mind. One day at a time.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Modes</h4>
+        <ul>
+          <li><a href="typing.html">Typing Challenge</a></li>
+          <li><a href="logic.html">Logic Puzzle</a></li>
+          <li><a href="stats.html">Your Stats</a></li>
+          <li><a href="archive.html">Archive</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Built by voidbuilds</a></li>
+          <li><a href="https://logicvault.tech" target="_blank">logicvault.tech</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  
+  <script>
+    // Load a random easy riddle
+    document.addEventListener('DOMContentLoaded', () => {
+      const easyRiddles = PUZZLES.filter(p => 
+        (p.category === 'riddle' || p.category === 'lateral') && 
+        p.difficulty === 'easy'
+      );
+      
+      const randomRiddle = easyRiddles[Math.floor(Math.random() * easyRiddles.length)];
+      
+      if (randomRiddle) {
+        document.getElementById('riddle-question').textContent = randomRiddle.question;
+        document.getElementById('riddle-answer').textContent = `Answer: ${randomRiddle.answer}`;
+      }
+    });
+    
+    // Toggle riddle answer
+    function toggleRiddleAnswer() {
+      const answer = document.getElementById('riddle-answer');
+      answer.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

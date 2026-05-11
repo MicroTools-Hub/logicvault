@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>Daily Logic Puzzle — LogicVault</title>
+  <meta name="description" content="Solve today's free logic puzzle. New lateral thinking, math, and riddle challenges every day. Can you solve it without hints?">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Daily Logic Puzzle — LogicVault">
+  <meta property="og:description" content="Can you solve today's logic puzzle?">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        ⚡ Logic<span>Vault</span>
+      </a>
+      <div class="nav-links">
+        <a href="stats.html" class="nav-link">Stats</a>
+        <a href="typing.html" class="nav-link">Typing Challenge</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Logic Puzzle Container -->
+  <main class="logic-container">
+    <!-- Header -->
+    <header class="logic-header">
+      <h1 class="logic-title">🧩 Logic Puzzle</h1>
+      <div class="typing-meta">
+        <span id="current-date"></span>
+        <span id="puzzle-number"></span>
+        <span id="category-badge" class="difficulty-badge">—</span>
+        <span id="difficulty-badge" class="difficulty-badge">—</span>
+      </div>
+    </header>
+
+    <!-- Puzzle Card -->
+    <div class="puzzle-card">
+      <div class="puzzle-category-badge" id="puzzle-category"></div>
+      <p class="puzzle-question" id="puzzle-question">
+        <!-- Question rendered by JS -->
+      </p>
+      
+      <!-- Hint System -->
+      <div class="hint-system">
+        <div class="hint-buttons">
+          <button class="hint-btn" id="hint-btn-1">💡 Hint 1</button>
+          <button class="hint-btn" id="hint-btn-2" disabled>💡 Hint 2</button>
+          <button class="hint-btn" id="hint-btn-3" disabled>💡 Hint 3</button>
+        </div>
+        
+        <div id="hint-text-1" class="hint-text hidden"></div>
+        <div id="hint-text-2" class="hint-text hidden"></div>
+        <div id="hint-text-3" class="hint-text hidden"></div>
+      </div>
+      
+      <!-- Answer Section -->
+      <div class="answer-section" id="answer-section">
+        <textarea 
+          class="answer-input" 
+          id="answer-input" 
+          placeholder="Type your answer here..."
+          rows="3"
+        ></textarea>
+        
+        <button class="btn btn-logic" id="submit-answer">
+          Submit Answer
+        </button>
+      </div>
+    </div>
+
+    <!-- Ad Slot -->
+    <div class="ad-container">
+      <script>document.write(renderAdSlot('banner'));</script>
+    </div>
+
+    <!-- Past Puzzle Scores -->
+    <section class="mt-4">
+      <h3 class="keyboard-title">Your Last 7 Puzzles</h3>
+      <div class="calendar-heatmap" id="past-puzzles-heatmap">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>⚡ LogicVault</h3>
+        <p>Sharpen your mind. One day at a time.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Modes</h4>
+        <ul>
+          <li><a href="typing.html">Typing Challenge</a></li>
+          <li><a href="logic.html">Logic Puzzle</a></li>
+          <li><a href="stats.html">Your Stats</a></li>
+          <li><a href="archive.html">Archive</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Built by voidbuilds</a></li>
+          <li><a href="https://logicvault.tech" target="_blank">logicvault.tech</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/logic.js"></script>
+  
+  <script>
+    // Populate hint texts on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const puzzle = window.logicGame?.puzzle || getTodayPuzzle();
+      
+      if (puzzle) {
+        document.getElementById('hint-text-1').textContent = puzzle.hint1;
+        document.getElementById('hint-text-2').textContent = puzzle.hint2;
+        document.getElementById('hint-text-3').textContent = puzzle.hint3;
+      }
+      
+      // Show past puzzles heatmap
+      const recentGames = getRecentGames('logic', 7);
+      
+      if (recentGames.length === 0) {
+        document.getElementById('past-puzzles-heatmap').innerHTML = '<p class="text-center text-muted">Solve puzzles to see your progress!</p>';
+        return;
+      }
+      
+      // Create simple status array for heatmap
+      const statuses = recentGames.map(g => g.solved ? 'solved' : 'failed');
+      
+      // Pad to 30 days with missed
+      while (statuses.length < 30) {
+        statuses.unshift('missed');
+      }
+      
+      document.getElementById('past-puzzles-heatmap').innerHTML = generateCalendarHeatmap(statuses.slice(-30));
+    });
+  </script>
+</body>
+</html>

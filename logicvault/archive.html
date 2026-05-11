@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>Archive — LogicVault</title>
+  <meta name="description" content="Browse past typing quotes and logic puzzles from LogicVault. Practice with previous challenges anytime.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Archive — LogicVault">
+  <meta property="og:description" content="Browse past challenges.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        ⚡ Logic<span>Vault</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="typing.html" class="nav-link">Typing</a>
+        <a href="logic.html" class="nav-link">Logic</a>
+        <a href="stats.html" class="nav-link">Stats</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Archive Container -->
+  <main class="archive-container">
+    <h1 class="section-title">📚 Challenge Archive</h1>
+    
+    <!-- Ad Slot -->
+    <div class="ad-container">
+      <script>document.write(renderAdSlot('banner'));</script>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="archive-tabs">
+      <button class="tab-btn active" onclick="switchTab('quotes')">Past Quotes</button>
+      <button class="tab-btn" onclick="switchTab('puzzles')">Past Puzzles</button>
+    </div>
+    
+    <!-- Search Bar -->
+    <input 
+      type="text" 
+      class="search-bar" 
+      id="search-input" 
+      placeholder="Search by keyword, author, category..."
+      oninput="filterArchive()"
+    >
+    
+    <!-- Quotes List -->
+    <div class="archive-list" id="quotes-list">
+      <!-- Populated by JS -->
+    </div>
+    
+    <!-- Puzzles List (hidden by default) -->
+    <div class="archive-list hidden" id="puzzles-list">
+      <!-- Populated by JS -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>⚡ LogicVault</h3>
+        <p>Sharpen your mind. One day at a time.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Modes</h4>
+        <ul>
+          <li><a href="typing.html">Typing Challenge</a></li>
+          <li><a href="logic.html">Logic Puzzle</a></li>
+          <li><a href="stats.html">Your Stats</a></li>
+          <li><a href="archive.html">Archive</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Built by voidbuilds</a></li>
+          <li><a href="https://logicvault.tech" target="_blank">logicvault.tech</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stats.js"></script>
+  
+  <script>
+    let currentTab = 'quotes';
+    
+    // Initialize archive
+    document.addEventListener('DOMContentLoaded', () => {
+      renderQuotesList();
+      renderPuzzlesList();
+    });
+    
+    // Switch tabs
+    function switchTab(tab) {
+      currentTab = tab;
+      
+      const quotesList = document.getElementById('quotes-list');
+      const puzzlesList = document.getElementById('puzzles-list');
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      
+      if (tab === 'quotes') {
+        quotesList.classList.remove('hidden');
+        puzzlesList.classList.add('hidden');
+        tabBtns[0].classList.add('active');
+        tabBtns[1].classList.remove('active');
+      } else {
+        quotesList.classList.add('hidden');
+        puzzlesList.classList.remove('hidden');
+        tabBtns[0].classList.remove('active');
+        tabBtns[1].classList.add('active');
+      }
+      
+      filterArchive();
+    }
+    
+    // Render quotes list
+    function renderQuotesList() {
+      const container = document.getElementById('quotes-list');
+      const stats = getStats();
+      
+      let html = '';
+      
+      QUOTES.forEach((quote, index) => {
+        // Find if user has played this quote
+        const game = stats.typing.history.find(g => g.quoteId === quote.id);
+        const scoreBadge = game ? 
+          `<span class="score-badge good">${game.wpm} WPM</span>` : '';
+        
+        // Calculate date this quote was/will be featured
+        const startDate = new Date('2025-01-01');
+        const featureDate = new Date(startDate);
+        featureDate.setDate(featureDate.getDate() + index);
+        
+        html += `
+          <div class="archive-item" data-category="${quote.category}" data-difficulty="${quote.difficulty}" data-search="${quote.text.toLowerCase()} ${quote.author.toLowerCase()} ${quote.category}".toLowerCase()">
+            <div class="archive-item-info">
+              <div class="archive-item-title">
+                ${getCategoryIcon(quote.category)} "${quote.text.substring(0, 60)}${quote.text.length > 60 ? '...' : ''}"
+              </div>
+              <div class="archive-item-meta">
+                ${quote.author} · 
+                <span class="difficulty-badge difficulty-${quote.difficulty}">${quote.difficulty}</span> ·
+                Featured: ${formatDate(featureDate.toISOString())}
+              </div>
+            </div>
+            <div class="archive-item-action">
+              ${scoreBadge}
+              <a href="typing.html?quote=${quote.id}" class="btn btn-primary btn-small mt-1">
+                Play →
+              </a>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+    
+    // Render puzzles list
+    function renderPuzzlesList() {
+      const container = document.getElementById('puzzles-list');
+      const stats = getStats();
+      
+      let html = '';
+      
+      PUZZLES.forEach((puzzle, index) => {
+        // Find if user has solved this puzzle
+        const game = stats.logic.history.find(g => g.puzzleId === puzzle.id);
+        const scoreBadge = game ? 
+          (game.solved ? 
+            `<span class="score-badge good">✓ Solved (${game.hintsUsed} hints)</span>` : 
+            `<span class="score-badge bad">✗ Failed</span>`) : '';
+        
+        // Calculate date this puzzle was/will be featured
+        const startDate = new Date('2025-01-01');
+        const featureDate = new Date(startDate);
+        featureDate.setDate(featureDate.getDate() + index);
+        
+        html += `
+          <div class="archive-item" data-category="${puzzle.category}" data-difficulty="${puzzle.difficulty}" data-search="${puzzle.question.toLowerCase()} ${puzzle.category}".toLowerCase()">
+            <div class="archive-item-info">
+              <div class="archive-item-title">
+                ${getCategoryIcon(puzzle.category)} ${puzzle.question.substring(0, 60)}${puzzle.question.length > 60 ? '...' : ''}
+              </div>
+              <div class="archive-item-meta">
+                ${getCategoryName(puzzle.category)} · 
+                <span class="difficulty-badge difficulty-${puzzle.difficulty}">${puzzle.difficulty}</span> ·
+                Featured: ${formatDate(featureDate.toISOString())}
+              </div>
+            </div>
+            <div class="archive-item-action">
+              ${scoreBadge}
+              <a href="logic.html?puzzle=${puzzle.id}" class="btn btn-logic btn-small mt-1">
+                Try →
+              </a>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+    
+    // Filter archive based on search
+    function filterArchive() {
+      const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+      const container = currentTab === 'quotes' ? 
+        document.getElementById('quotes-list') : 
+        document.getElementById('puzzles-list');
+      
+      const items = container.querySelectorAll('.archive-item');
+      
+      items.forEach(item => {
+        const searchData = item.getAttribute('data-search');
+        const category = item.getAttribute('data-category');
+        const difficulty = item.getAttribute('data-difficulty');
+        
+        const matchesSearch = !searchTerm || searchData.includes(searchTerm);
+        
+        if (matchesSearch) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
