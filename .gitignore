@@ -1,27 +1,27 @@
-```
-# Build artifacts
-dist/
-build/
-*.js
-*.css
-*.html
+# Compiled and build artifacts
+*.pyc
+__pycache__/
 
 # Dependencies
+.venv/
+venv/
 node_modules/
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
+dist/
+build/
 
 # Logs and temp files
 *.log
 *.tmp
 *.swp
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
 
 # OS generated files
 .DS_Store
@@ -30,17 +30,23 @@ Thumbs.db
 # Coverage reports
 coverage/
 htmlcov/
-*.coverage
+.coverage
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
+# Python specific
+*.py[cod]
+*$py.class
 *.so
+.Python
 *.egg-info/
-.eggs/
+MANIFEST
+
+# Build outputs
+*.out
+*.exe
+*.dll
+*.so
+*.a
+*.o
 
 # Compressed files
 *.zip
@@ -65,4 +71,365 @@ __pycache__/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
-```
+
+# MyPy cache
+.mypy_cache/
+# PyTest cache
+.pytest_cache/
+
+# Gradle
+.gradle/
+target/
+
+# Temporary files
+*.tmp
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+.directory
+.folders~
+*.nib
+profile
+
+# IDE specific
+*.swp
+*.swo
+*~
+
+# Local configuration files
+.settings/
+*.local
+
+# Cache directories
+.cache/
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Database
+*.db
+*.db-journal
+
+# Logs
+*.log
+
+# Environment variables
+.env*
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Vim swap files
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Intellij
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Eclipse
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# Visual Studio Code
+.vscode/
+
+# Atom
+.atom/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# SASS
+.sass-cache/
+
+# Ruby/Rails
+*.gem
+*.rbc
+.bundle/
+.config/unicorn.rb
+.rid
+/log/
+/tmp/
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/public/system/
+/coverage/
+/spec/reports/
+_saved_session
+*.orig
+vendor/bundle
+.yardoc
+_yardoc
+doc/
+.rvmrc
+.heyman
+.env
+
+# Go
+*.exe
+*.test
+*.prof
+*.out
+*.dll
+*.so
+*.dylib
+*.pyc
+*.pyo
+*.pyd
+*.jar
+*.war
+*.ear
+*.class
+*.o
+*.a
+*.obj
+*.lib
+*.dll
+*.so
+*.dylib
+*.exe
+*.out
+*.pyc
+*.pyo
+*.pyd
+*.jar
+*.war
+*.ear
+*.class
+*.o
+*.a
+*.obj
+*.lib
+*.dll
+*.so
+*.dylib
+*.exe
+*.out
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+target/
+.gradle/
+build/
+!src/main/**/*
+!src/test/**/*
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.pnp
+.pnp.js
+coverage/
+.nyc_output/
+!.vscode
+.vscode
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.python-version
+celerybeat-schedule
+celerybeat.pid
+.venv/
+venv/
+env/
+ENV/
+venv.bak/
+ENV.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.pydevproject
+.project
+.pyro4/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.dynaconf/
+.d......

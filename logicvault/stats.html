@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>Your Stats — LogicVault</title>
+  <meta name="description" content="View your LogicVault progress: WPM stats, puzzle solve rate, streaks, and level progression.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Your Stats — LogicVault">
+  <meta property="og:description" content="Track your brain training progress.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        ⚡ Logic<span>Vault</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="typing.html" class="nav-link">Typing</a>
+        <a href="logic.html" class="nav-link">Logic</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Stats Container -->
+  <main class="stats-container">
+    <!-- Header with Level -->
+    <header class="text-center mb-4">
+      <h1 class="section-title">📊 Your Brain Stats</h1>
+      <div id="level-badge-container"></div>
+      <div id="xp-bar-container" style="max-width: 500px; margin: 16px auto;"></div>
+    </header>
+
+    <div class="stats-grid">
+      <!-- Typing Stats Panel -->
+      <div class="stats-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">⌨️ Typing Stats</h2>
+        </div>
+        
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-item-value" id="typing-best-wpm">—</div>
+            <div class="stat-item-label">Best WPM</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="typing-avg-wpm">—</div>
+            <div class="stat-item-label">Avg WPM</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="typing-best-accuracy">—</div>
+            <div class="stat-item-label">Best Accuracy</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="typing-total-chars">—</div>
+            <div class="stat-item-label">Chars Typed</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="typing-current-streak">—</div>
+            <div class="stat-item-label">Current Streak</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="typing-longest-streak">—</div>
+            <div class="stat-item-label">Longest Streak</div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <h4 class="chart-title">WPM Over Time (Last 14 Days)</h4>
+          <div id="typing-wpm-chart"></div>
+        </div>
+        
+        <div class="keyboard-heatmap mt-3">
+          <h4 class="chart-title">Most Errors On</h4>
+          <div id="typing-keyboard-heatmap"></div>
+        </div>
+      </div>
+
+      <!-- Logic Stats Panel -->
+      <div class="stats-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">🧩 Logic Stats</h2>
+        </div>
+        
+        <div class="stat-grid">
+          <div class="stat-item">
+            <div class="stat-item-value" id="logic-solved">—</div>
+            <div class="stat-item-label">Solved</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="logic-solve-rate">—</div>
+            <div class="stat-item-label">Solve Rate</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="logic-avg-hints">—</div>
+            <div class="stat-item-label">Avg Hints</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="logic-attempted">—</div>
+            <div class="stat-item-label">Attempted</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="logic-current-streak">—</div>
+            <div class="stat-item-label">Current Streak</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-value" id="logic-longest-streak">—</div>
+            <div class="stat-item-label">Longest Streak</div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <h4 class="chart-title">Category Breakdown</h4>
+          <div class="pie-chart" id="logic-category-pie" style="background: conic-gradient(#8888aa 0deg 360deg);"></div>
+        </div>
+        
+        <div class="chart-container mt-3">
+          <h4 class="chart-title">Last 30 Days Activity</h4>
+          <div id="logic-calendar-heatmap"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ad Slot -->
+    <div class="ad-container">
+      <script>document.write(renderAdSlot('banner'));</script>
+    </div>
+
+    <!-- Reset Button -->
+    <button class="btn btn-ghost reset-btn" onclick="handleReset()">
+      🗑️ Reset All Stats
+    </button>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>⚡ LogicVault</h3>
+        <p>Sharpen your mind. One day at a time.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Modes</h4>
+        <ul>
+          <li><a href="typing.html">Typing Challenge</a></li>
+          <li><a href="logic.html">Logic Puzzle</a></li>
+          <li><a href="stats.html">Your Stats</a></li>
+          <li><a href="archive.html">Archive</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Built by voidbuilds</a></li>
+          <li><a href="https://logicvault.tech" target="_blank">logicvault.tech</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stats.js"></script>
+  
+  <script>
+    // Initialize stats page
+    document.addEventListener('DOMContentLoaded', () => {
+      const stats = getStats();
+      const levelInfo = getLevel();
+      
+      // Level badge and XP bar
+      document.getElementById('level-badge-container').innerHTML = renderLevelBadge(levelInfo.level);
+      document.getElementById('xp-bar-container').innerHTML = renderXPBar(levelInfo.level, levelInfo.xpInCurrentLevel, 100);
+      
+      // Typing stats
+      document.getElementById('typing-best-wpm').textContent = stats.typing.bestWPM > 0 ? stats.typing.bestWPM : '—';
+      document.getElementById('typing-avg-wpm').textContent = stats.typing.avgWPM > 0 ? stats.typing.avgWPM : '—';
+      document.getElementById('typing-best-accuracy').textContent = stats.typing.bestAccuracy > 0 ? `${stats.typing.bestAccuracy}%` : '—';
+      document.getElementById('typing-total-chars').textContent = stats.typing.totalCharsTyped > 0 ? stats.typing.totalCharsTyped.toLocaleString() : '—';
+      document.getElementById('typing-current-streak').innerHTML = renderStreakBadge(stats.typing.currentStreak);
+      document.getElementById('typing-longest-streak').textContent = stats.typing.longestStreak || '—';
+      
+      // Typing chart
+      const typingHistory = stats.typing.history.slice(0, 14).reverse();
+      if (typingHistory.length > 0) {
+        const maxValue = Math.max(...typingHistory.map(g => g.wpm), 50);
+        const chartData = typingHistory.map(g => ({ value: g.wpm, label: `WPM: ${g.wpm}` }));
+        document.getElementById('typing-wpm-chart').innerHTML = generateBarChart(chartData, maxValue);
+      } else {
+        document.getElementById('typing-wpm-chart').innerHTML = '<p class="text-muted text-center">No data yet</p>';
+      }
+      
+      // Keyboard heatmap placeholder (would need actual key stats from games)
+      document.getElementById('typing-keyboard-heatmap').innerHTML = generateKeyboardHeatmap({});
+      
+      // Logic stats
+      document.getElementById('logic-solved').textContent = stats.logic.solved > 0 ? stats.logic.solved : '—';
+      document.getElementById('logic-solve-rate').textContent = getSolveRate() > 0 ? `${getSolveRate()}%` : '—';
+      document.getElementById('logic-avg-hints').textContent = getAvgHints() > 0 ? getAvgHints() : '—';
+      document.getElementById('logic-attempted').textContent = stats.logic.history.length > 0 ? stats.logic.history.length : '—';
+      document.getElementById('logic-current-streak').innerHTML = renderStreakBadge(stats.logic.currentStreak);
+      document.getElementById('logic-longest-streak').textContent = stats.logic.longestStreak || '—';
+      
+      // Category pie chart
+      const breakdown = getCategoryBreakdown();
+      if (Object.keys(breakdown).length > 0) {
+        const gradient = generatePieChart(breakdown);
+        document.getElementById('logic-category-pie').style.background = gradient;
+      }
+      
+      // Calendar heatmap
+      const logicHistory = stats.logic.history;
+      const statuses = [];
+      
+      // Generate last 30 days
+      for (let i = 29; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        
+        const game = logicHistory.find(g => g.date.startsWith(dateStr));
+        if (game) {
+          statuses.push(game.solved ? 'solved' : 'failed');
+        } else {
+          statuses.push('missed');
+        }
+      }
+      
+      document.getElementById('logic-calendar-heatmap').innerHTML = generateCalendarHeatmap(statuses);
+    });
+    
+    // Handle reset
+    function handleReset() {
+      if (resetAllStats()) {
+        showToast('Stats reset successfully!', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    }
+  </script>
+</body>
+</html>

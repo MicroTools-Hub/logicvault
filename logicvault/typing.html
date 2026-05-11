@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>Daily Typing Speed Test — LogicVault</title>
+  <meta name="description" content="Take today's free typing speed test. Measure your WPM and accuracy with a new quote every day. Track your progress and build your streak.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Daily Typing Speed Test — LogicVault">
+  <meta property="og:description" content="Test your typing speed with today's quote!">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        ⚡ Logic<span>Vault</span>
+      </a>
+      <div class="nav-links">
+        <a href="stats.html" class="nav-link">Stats</a>
+        <a href="logic.html" class="nav-link">Logic Puzzle</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Typing Challenge Container -->
+  <main class="typing-container">
+    <!-- Header -->
+    <header class="typing-header">
+      <h1 class="typing-title">⌨️ Typing Challenge</h1>
+      <div class="typing-meta">
+        <span id="current-date"></span>
+        <span id="difficulty-badge" class="difficulty-badge">—</span>
+        <span class="text-muted">Best: <strong id="best-wpm">—</strong></span>
+      </div>
+    </header>
+
+    <!-- Quote Box -->
+    <div class="quote-box" id="quote-box">
+      <div class="quote-text" id="quote-text">
+        <!-- Characters rendered by JS -->
+      </div>
+      <div class="quote-author" id="quote-author"></div>
+      
+      <!-- Hidden input for capturing keystrokes -->
+      <input 
+        type="text" 
+        id="hidden-input" 
+        style="opacity: 0; position: absolute; pointer-events: none; font-size: 16px;"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+    </div>
+
+    <!-- Live Stats Bar -->
+    <div class="live-stats" id="live-stats">
+      <div class="live-stat">
+        <span class="live-stat-label">WPM</span>
+        <span class="live-stat-value" id="live-wpm">0</span>
+      </div>
+      <div class="live-stat">
+        <span class="live-stat-label">Accuracy</span>
+        <span class="live-stat-value" id="live-accuracy">100%</span>
+      </div>
+      <div class="live-stat">
+        <span class="live-stat-label">Time</span>
+        <span class="live-stat-value" id="live-time">0:00</span>
+      </div>
+      <div class="live-stat" style="flex: 1;">
+        <span class="live-stat-label">Progress</span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Keyboard Heatmap (shown after completion) -->
+    <div class="keyboard-heatmap" id="keyboard-container"></div>
+
+    <!-- Ad Slot -->
+    <div class="ad-container">
+      <script>document.write(renderAdSlot('banner'));</script>
+    </div>
+
+    <!-- Past Scores Section -->
+    <section class="mt-4">
+      <h3 class="keyboard-title">Your Last 7 Typing Sessions</h3>
+      <div class="chart-container" id="past-scores-chart">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>⚡ LogicVault</h3>
+        <p>Sharpen your mind. One day at a time.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Modes</h4>
+        <ul>
+          <li><a href="typing.html">Typing Challenge</a></li>
+          <li><a href="logic.html">Logic Puzzle</a></li>
+          <li><a href="stats.html">Your Stats</a></li>
+          <li><a href="archive.html">Archive</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Built by voidbuilds</a></li>
+          <li><a href="https://logicvault.tech" target="_blank">logicvault.tech</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/typing.js"></script>
+  
+  <script>
+    // Show past scores chart
+    document.addEventListener('DOMContentLoaded', () => {
+      const recentGames = getRecentGames('typing', 7);
+      
+      if (recentGames.length === 0) {
+        document.getElementById('past-scores-chart').innerHTML = '<p class="text-center text-muted">Complete typing tests to see your progress!</p>';
+        return;
+      }
+      
+      const maxValue = Math.max(...recentGames.map(g => g.wpm), 100);
+      const chartData = recentGames.map(g => ({ value: g.wpm, label: `WPM: ${g.wpm}` }));
+      
+      document.getElementById('past-scores-chart').innerHTML = generateBarChart(chartData.reverse(), maxValue);
+    });
+  </script>
+</body>
+</html>

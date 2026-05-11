@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>LogicVault — Daily Typing Speed & Logic Puzzle Challenges</title>
+  <meta name="description" content="Free daily challenges to improve your typing speed and logical thinking. New typing test and logic puzzle every day. Track your streak and watch yourself improve.">
+  <meta name="keywords" content="typing test, logic puzzles, brain training, daily challenges, WPM test, puzzle game">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="LogicVault — Train Your Brain Daily">
+  <meta property="og:description" content="Two daily challenges: typing speed + logical thinking. Free forever.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://logicvault.tech">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "LogicVault",
+    "description": "Free daily typing speed and logic puzzle challenges",
+    "url": "https://logicvault.tech",
+    "applicationCategory": "GameApplication",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        ⚡ Logic<span>Vault</span>
+      </a>
+      <div class="nav-links">
+        <a href="stats.html" class="nav-link">Stats</a>
+        <div id="nav-streak"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg-shapes">
+      <div class="shape shape-circle"></div>
+      <div class="shape shape-triangle"></div>
+      <div class="shape shape-square"></div>
+    </div>
+    
+    <div class="hero-content">
+      <h1>Train your brain.<br>Every single day.</h1>
+      <p class="hero-sub">Two daily challenges. Typing speed + logical thinking. Free forever.</p>
+      
+      <div class="hero-stats-bar">
+        <div class="hero-stat">
+          🧠 <strong id="today-puzzles">0</strong> puzzles solved today
+        </div>
+        <div class="hero-stat">
+          ⌨️ <strong id="today-typing">0</strong> typing tests taken today
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mode Picker -->
+  <section class="mode-picker">
+    <div class="mode-cards">
+      <!-- Typing Card -->
+      <div class="mode-card mode-card--typing" onclick="window.location.href='typing.html'">
+        <div class="mode-card-icon">⌨️</div>
+        <h2 class="mode-card-title">Typing Speed</h2>
+        <p class="mode-card-sub">How fast can you type today's quote?</p>
+        
+        <div class="mode-card-stats">
+          <div class="mode-card-stat">Your best: <strong id="typing-best-wpm">—</strong></div>
+          <div class="mode-card-stat">Streak: <strong id="typing-streak">—</strong></div>
+        </div>
+        
+        <div class="mb-3">
+          <span id="typing-difficulty" class="difficulty-badge">—</span>
+        </div>
+        
+        <div id="typing-action">
+          <button class="btn btn-primary btn-large">Start Typing →</button>
+        </div>
+        
+        <div id="typing-completed" class="hidden">
+          <div class="score-badge good mb-2">✓ Completed Today</div>
+          <p class="text-muted" id="typing-score-display"></p>
+          <button class="btn btn-ghost btn-small mt-2" onclick="window.location.href='typing.html'">Play again</button>
+        </div>
+      </div>
+
+      <!-- Logic Card -->
+      <div class="mode-card mode-card--logic" onclick="window.location.href='logic.html'">
+        <div class="mode-card-icon">🧩</div>
+        <h2 class="mode-card-title">Logic Puzzle</h2>
+        <p class="mode-card-sub">Can you crack today's puzzle?</p>
+        
+        <div class="mode-card-stats">
+          <div class="mode-card-stat">Solved: <strong id="logic-solved">0</strong></div>
+          <div class="mode-card-stat">Streak: <strong id="logic-streak">—</strong></div>
+        </div>
+        
+        <div class="mb-3">
+          <span id="logic-difficulty" class="difficulty-badge">—</span>
+        </div>
+        
+        <div id="logic-action">
+          <button class="btn btn-logic btn-large">Try Today's Puzzle →</button>
+        </div>
+        
+        <div id="logic-completed" class="hidden">
+          <div class="score-badge good mb-2">✓ Solved Today</div>
+          <p class="text-muted" id="logic-hints-display"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">🎯</div>
+        <h3 class="step-title">Pick your challenge</h3>
+        <p class="step-desc">Typing or logic — new challenges every day</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">⚡</div>
+        <h3 class="step-title">Push your limits</h3>
+        <p class="step-desc">Beat your best score, track your streak</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">📈</div>
+        <h3 class="step-title">Watch yourself improve</h3>
+        <p class="step-desc">Your stats dashboard shows real progress</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Slot -->
+  <div class="ad-container">
+    <script>document.write(renderAdSlot('banner'));</script>
+  </div>
+
+  <!-- Stats Preview -->
+  <section class="stats-preview">
+    <h2 class="section-title">Your Progress So Far</h2>
+    
+    <div class="stat-boxes">
+      <div class="stat-box">
+        <div class="stat-box-value" id="stat-best-wpm">—</div>
+        <div class="stat-box-label">Best WPM</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-value" id="stat-puzzles-solved">—</div>
+        <div class="stat-box-label">Puzzles Solved</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-value" id="stat-longest-streak">—</div>
+        <div class="stat-box-label">Longest Streak</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-value" id="stat-current-level">—</div>
+        <div class="stat-box-label">Current Level</div>
+      </div>
+    </div>
+    
+    <div class="text-center mt-3">
+      <a href="stats.html" class="btn btn-ghost">View full stats →</a>
+    </div>
+  </section>
+
+  <!-- Archive Teaser -->
+  <section class="archive-teaser">
+    <h2 class="section-title">Missed yesterday's challenge?</h2>
+    
+    <div class="teaser-cards" id="teaser-cards">
+      <!-- Populated by JS -->
+    </div>
+    
+    <div class="text-center mt-3">
+      <a href="archive.html" class="btn btn-ghost">Browse all →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>⚡ LogicVault</h3>
+        <p>Sharpen your mind. One day at a time.</p>
+        <div class="social-share">
+          <a href="#" class="social-btn" onclick="shareSite('twitter'); return false;">𝕏</a>
+          <a href="#" class="social-btn" onclick="shareSite('whatsapp'); return false;">📱</a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Modes</h4>
+        <ul>
+          <li><a href="typing.html">Typing Challenge</a></li>
+          <li><a href="logic.html">Logic Puzzle</a></li>
+          <li><a href="stats.html">Your Stats</a></li>
+          <li><a href="archive.html">Archive</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Built by voidbuilds</a></li>
+          <li><a href="https://logicvault.tech" target="_blank">logicvault.tech</a></li>
+        </ul>
+        <p class="mt-2" style="font-size: 12px; color: var(--muted);">
+          Free forever. No signup required.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stats.js"></script>
+  
+  <script>
+    // Initialize homepage
+    document.addEventListener('DOMContentLoaded', () => {
+      const stats = getStats();
+      
+      // Update nav streak
+      const longestStreak = Math.max(stats.typing.longestStreak, stats.logic.longestStreak);
+      document.getElementById('nav-streak').innerHTML = renderStreakBadge(longestStreak);
+      
+      // Today's play counts
+      document.getElementById('today-typing').textContent = getTodayPlayCount('typing');
+      document.getElementById('today-puzzles').textContent = getTodayPlayCount('logic');
+      
+      // Typing card
+      const typingStreak = getStreak('typing');
+      document.getElementById('typing-best-wpm').textContent = stats.typing.bestWPM > 0 ? `${stats.typing.bestWPM} WPM` : '—';
+      document.getElementById('typing-streak').innerHTML = renderStreakBadge(typingStreak.current);
+      
+      const todayQuote = getTodayQuote();
+      if (todayQuote) {
+        document.getElementById('typing-difficulty').textContent = todayQuote.difficulty.toUpperCase();
+        document.getElementById('typing-difficulty').className = `difficulty-badge difficulty-${todayQuote.difficulty}`;
+      }
+      
+      if (hasPlayedToday('typing')) {
+        const lastGame = stats.typing.history[0];
+        if (lastGame) {
+          document.getElementById('typing-action').classList.add('hidden');
+          document.getElementById('typing-completed').classList.remove('hidden');
+          document.getElementById('typing-score-display').textContent = `${lastGame.wpm} WPM · ${lastGame.accuracy}%`;
+        }
+      }
+      
+      // Logic card
+      const logicStreak = getStreak('logic');
+      document.getElementById('logic-solved').textContent = stats.logic.solved;
+      document.getElementById('logic-streak').innerHTML = renderStreakBadge(logicStreak.current);
+      
+      const todayPuzzle = getTodayPuzzle();
+      if (todayPuzzle) {
+        document.getElementById('logic-difficulty').textContent = todayPuzzle.difficulty.toUpperCase();
+        document.getElementById('logic-difficulty').className = `difficulty-badge difficulty-${todayPuzzle.difficulty}`;
+      }
+      
+      if (hasPlayedToday('logic')) {
+        const lastGame = stats.logic.history[0];
+        if (lastGame && lastGame.solved) {
+          document.getElementById('logic-action').classList.add('hidden');
+          document.getElementById('logic-completed').classList.remove('hidden');
+          document.getElementById('logic-hints-display').textContent = `${lastGame.hintsUsed} hint${lastGame.hintsUsed !== 1 ? 's' : ''} used`;
+        }
+      }
+      
+      // Stats preview
+      document.getElementById('stat-best-wpm').textContent = stats.typing.bestWPM > 0 ? stats.typing.bestWPM : '—';
+      document.getElementById('stat-puzzles-solved').textContent = stats.logic.solved > 0 ? stats.logic.solved : '—';
+      document.getElementById('stat-longest-streak').textContent = Math.max(stats.typing.longestStreak, stats.logic.longestStreak) || '—';
+      document.getElementById('stat-current-level').textContent = `Lvl ${stats.level}`;
+      
+      // Archive teaser - show last 3 items
+      const teaserContainer = document.getElementById('teaser-cards');
+      const recentQuotes = QUOTES.slice(0, 3);
+      
+      let teaserHTML = '';
+      recentQuotes.forEach((quote, i) => {
+        teaserHTML += `
+          <div class="teaser-card">
+            <div class="teaser-card-title">${getCategoryIcon(quote.category)} ${quote.author}</div>
+            <div class="teaser-card-meta">${quote.text.substring(0, 50)}...</div>
+            <div class="mt-2">
+              <span class="difficulty-badge difficulty-${quote.difficulty}">${quote.difficulty}</span>
+            </div>
+          </div>
+        `;
+      });
+      
+      teaserContainer.innerHTML = teaserHTML;
+    });
+    
+    // Share site function
+    function shareSite(platform) {
+      const text = 'Train your brain daily with LogicVault — free typing speed tests and logic puzzles! 🔥';
+      const url = 'https://logicvault.tech';
+      
+      if (platform === 'twitter') {
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+      } else if (platform === 'whatsapp') {
+        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+      }
+    }
+  </script>
+</body>
+</html>
